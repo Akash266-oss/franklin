@@ -1,12 +1,8 @@
-version: '3.8'
-
+---
+version: '3'
 services:
-  web:
-    image: nginx:latest
-    container_name: devops-build-app
-    ports:
-      - "80:80"
-    volumes:
-      - ./build:/usr/share/nginx/html
-    restart: unless-stopped
-
+react-capstone:
+image: "react-capstone"
+ports:
+- "81:80"
+---
