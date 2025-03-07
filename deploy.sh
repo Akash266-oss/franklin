@@ -1,22 +1,21 @@
 #!/bin/bash
+echo running
+docker login -u akash3020  -p dckr_pat_DjcHSBpOzXX4cBcNRBwHBN25f_4
 
-# Variables
-IMAGE_NAME="akash3020/my-app"
-TAG="latest"  # Ensure this matches your build tag
-CONTAINER_NAME="devops-build"
+if [[ $GIT_BRANCH == "origin/dev" ]]; then
+       sh'chmod +x build.sh'
+       sh'./build.sh'
 
-echo "Deploying Docker image to server: $SERVER_IP"
+        docker tag test akash3020/dev
+        docker push akash3020/dev
 
-    echo "Pulling latest image..."
-    docker pull $IMAGE_NAME:$TAG
+if [[ $GIT_BRANCH == "origin/master" ]]; then
+        sh'chmod +x build.sh'
+        sh'./build.sh'
 
-    echo "Stopping existing container..."
-    docker stop $CONTAINER_NAME || true
-    docker rm $CONTAINER_NAME || true
+        docker tag test akash3020/prod
+        docker push akash3020/prod
 
-    echo "Running new container..."
-    docker run -d --name $CONTAINER_NAME -p 80:80 $IMAGE_NAME:$TAG
-
-    echo "Deployment completed successfully!"
-EOF
-
+else
+        echo "failed"
+fi
